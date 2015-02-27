@@ -48,7 +48,7 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     # install_package "openssl-1.0.1l" "https://www.openssl.org/source/openssl-1.0.1l.tar.gz#b2cf4d48fe5d49f240c61c9e624193a6f232b5ed0baf010681e725963c40d1d4" mac_openssl --if has_broken_mac_openssl
     apt-get -y install ruby bison &&\
     # ruby-build /src/2.1.2.discourse /usr/local &&\
-    cd /src/2.1.5 && autoconf &&\
+    # cd /src/2.1.5 && autoconf &&\
     ruby-build /src/2.1.5 /usr/local &&\
     apt-get -y remove ruby1.9.1 &&\
     gem update --system &&\
