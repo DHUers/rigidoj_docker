@@ -2,6 +2,11 @@ FROM dhuacm/rigidoj-docker:base
 
 MAINTAINER DHUers "https://github.com/DHUers"
 
+RUN gcc --version &&\
+    g++ --version &&\
+    clang --version &&\
+    javac -version
+
 RUN useradd rigidoj -s /bin/bash -m -U &&\
     cd /var/www &&\
      git clone https://github.com/DHUers/rigidoj.git &&\
@@ -20,5 +25,5 @@ RUN useradd rigidoj -s /bin/bash -m -U &&\
      tar -xf RigidJudge.tar &&\
      rm RigidJudge.tar &&\
      chown -R rigidjudge:rigidjudge /var/RigidJudge &&\
-    cd /var/RigidJudge/bin/sandbox &&\
-     make clean && make all
+    cd /var/RigidJudge/bin/sandbox && make &&\
+    cd /var/RigidJudge/bin && ./RigidJudge
