@@ -4,8 +4,8 @@ FROM ubuntu:14.04
 MAINTAINER DHUers "https://github.com/DHUers"
 
 RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
-    apt-get -y install fping &&\
-    sh -c "fping proxy && echo 'Acquire { Retries \"0\"; HTTP { Proxy \"http://proxy:3128\";}; };' > /etc/apt/apt.conf.d/40proxy || true" &&\
+    # apt-get -y install fping &&\
+    # sh -c "fping proxy && echo 'Acquire { Retries \"0\"; HTTP { Proxy \"http://proxy:3128\";}; };' > /etc/apt/apt.conf.d/40proxy || true" &&\
     apt-get -y update &&\
     apt-get -y install software-properties-common &&\
     add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" &&\
@@ -15,6 +15,7 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     apt-get -y upgrade &&\
     add-apt-repository -y ppa:rwky/redis &&\
     add-apt-repository -y ppa:nginx/stable &&\
+    add-apt-repository -y ppa:webupd8team/java &&\
     apt-get install -y curl && curl http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add - &&\
     echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | \
     tee /etc/apt/sources.list.d/postgres.list &&\
@@ -27,7 +28,7 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
                        postgresql-9.4 postgresql-client-9.4 \
                        postgresql-contrib-9.4 libpq-dev libreadline-dev \
                        nginx language-pack-en sudo cron \
-                       psmisc rsyslog &&\
+                       psmisc rsyslog oracle-java7-installer &&\
     dpkg-divert --local --rename --add /sbin/initctl &&\
     sh -c "test -f /sbin/initctl || ln -s /bin/true /sbin/initctl" &&\
     apt-get -y install redis-server haproxy openssh-server &&\
