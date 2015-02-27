@@ -17,8 +17,8 @@ RUN useradd rigidoj -s /bin/bash -m -U &&\
      curl -s https://api.github.com/repos/DHUers/RigidJudge/releases/latest |\
       grep browser_download_url | head -n 1 | cut -d '"' -f 4 |\
       wget -i - -O RigidJudge.tar &&\
-     tar -xf RigidJudge.zip &&\
-     rm RigidJudge.zip &&\
+     tar -xf RigidJudge.tar &&\
+     rm RigidJudge.tar &&\
      chown -R rigidjudge:rigidjudge /var/RigidJudge &&\
     cd /var/RigidJudge/bin/sandbox &&\
      make clean && make all

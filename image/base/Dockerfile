@@ -8,8 +8,8 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     # sh -c "fping proxy && echo 'Acquire { Retries \"0\"; HTTP { Proxy \"http://proxy:3128\";}; };' > /etc/apt/apt.conf.d/40proxy || true" &&\
     apt-get -y update &&\
     apt-get -y install software-properties-common &&\
-    add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" &&\
-    add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc)-updates main universe" &&\
+    # add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" &&\
+    # add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc)-updates main universe" &&\
     apt-get -y update &&\
     apt-mark hold initscripts &&\
     apt-get -y upgrade &&\
@@ -40,9 +40,10 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     mkdir /src && cd /src && git clone https://github.com/sstephenson/ruby-build.git &&\
     cd /src/ruby-build && ./install.sh &&\
     cd / && rm -rf /src/ruby-build &&\
-    echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.2.discourse &&\
+    # echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.2.discourse &&\
+    echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.5 &&\
     # echo install_package "ruby-v_2_1_2_discourse" "https://github.com/SamSaffron/ruby/archive/v_2_1_2_discourse.tar.gz#98741e3cbfd00ae2931b2c0edb0f0698" ldflags_dirs standard verify_openssl >> /src/2.1.2.discourse &&\
-    echo install_package "ruby-v2_1_5" "https://github.com/ruby/ruby/archive/v2_1_5.tar.gz" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
+    echo install_package "ruby-2_1_5" "https://github.com/ruby/ruby/archive/v2_1_5.tar.gz#64aba0d56d5617e8c96e76a795ab8cc2" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
     apt-get -y install ruby bison &&\
     # ruby-build /src/2.1.2.discourse /usr/local &&\
     ruby-build /src/2.1.5 /usr/local &&\
