@@ -44,7 +44,7 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.5 &&\
     # echo install_package "ruby-v_2_1_2_discourse" "https://github.com/SamSaffron/ruby/archive/v_2_1_2_discourse.tar.gz#98741e3cbfd00ae2931b2c0edb0f0698" ldflags_dirs standard verify_openssl >> /src/2.1.2.discourse &&\
     # echo install_package "ruby-2_1_5" "https://github.com/ruby/ruby/archive/v2_1_5.tar.gz#64aba0d56d5617e8c96e76a795ab8cc2" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
-    echo install_package "ruby-2.1.5" "http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz#4305cc6ceb094df55210d83548dcbeb5117d74eea25196a9b14fa268d354b100" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
+    echo install_package "ruby-v2_1_5" "https://github.com/DHUers/ruby/releases/download/v2_1_5/ruby-2_1_5_rigidoj.tar.gz" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
     # install_package "openssl-1.0.1l" "https://www.openssl.org/source/openssl-1.0.1l.tar.gz#b2cf4d48fe5d49f240c61c9e624193a6f232b5ed0baf010681e725963c40d1d4" mac_openssl --if has_broken_mac_openssl
     apt-get -y install ruby bison &&\
     # ruby-build /src/2.1.2.discourse /usr/local &&\

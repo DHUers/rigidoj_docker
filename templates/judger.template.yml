@@ -11,3 +11,4 @@ run:
         - /usr/local/bin/curl -s https://api.github.com/repos/DHUers/RigidJudge/releases/tags/$version | /usr/local/bin/grep browser_download_url | /usr/local/bin/head -n 1 | /usr/local/bin/cut -d '"' -f 4 | /usr/local/bin/wget -i - -O RigidJudge.tar
         - /usr/local/bin/tar -xf RigidJudge.tar .
         - rm -f $home/RidigJudge.tar
+        - make -C $home/RigidJudge/bin/sandbox/ clean all
