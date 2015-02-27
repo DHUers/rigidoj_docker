@@ -1,4 +1,4 @@
-FROM dhuacm/rigidoj-docker:latest
+FROM dhuacm/rigidoj-docker:base
 
 MAINTAINER DHUers "https://github.com/DHUers"
 

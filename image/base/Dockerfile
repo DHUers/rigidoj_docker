@@ -16,9 +16,13 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     add-apt-repository -y ppa:rwky/redis &&\
     add-apt-repository -y ppa:nginx/stable &&\
     add-apt-repository -y ppa:webupd8team/java &&\
+    echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections &&\
     apt-get install -y curl && curl http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add - &&\
     echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | \
     tee /etc/apt/sources.list.d/postgres.list &&\
+    curl https://www.rabbitmq.com/rabbitmq-signing-key-public.asc | apt-key add - &&\
+    echo "deb http://www.rabbitmq.com/debian/ testing main" | \
+    tee /etc/apt/sources.list.d/rabbitmq.list &&\
     apt-get -y update &&\
     apt-get -y install build-essential git curl wget \
                        libxslt-dev libcurl4-openssl-dev \
@@ -28,7 +32,7 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
                        postgresql-9.4 postgresql-client-9.4 \
                        postgresql-contrib-9.4 libpq-dev libreadline-dev \
                        nginx language-pack-en sudo cron \
-                       psmisc rsyslog oracle-java7-installer &&\
+                       psmisc rsyslog oracle-java7-installer rabbitmq-server &&\
     dpkg-divert --local --rename --add /sbin/initctl &&\
     sh -c "test -f /sbin/initctl || ln -s /bin/true /sbin/initctl" &&\
     apt-get -y install redis-server haproxy openssh-server &&\
