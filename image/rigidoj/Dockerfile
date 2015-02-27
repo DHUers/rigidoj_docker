@@ -3,19 +3,22 @@ FROM dhuacm/rigidoj-docker:base
 MAINTAINER DHUers "https://github.com/DHUers"
 
 RUN useradd rigidoj -s /bin/bash -m -U &&\
-    mkdir /var/www && cd /var/www &&\
+    cd /var/www &&\
      git clone https://github.com/DHUers/rigidoj.git &&\
-     cd rigidoj &&\
-     git remote set-branches --add origin tests-passed &&\
-     cd .. &&\
      chown -R rigidoj:rigidoj /var/www/rigidoj &&\
     cd /var/www/rigidoj &&\
      sudo -u rigidoj RAILS4=1 bundle install --deployment \
          --without test --without development &&\
     cd /var/www/rigidoj/vendor/bundle &&\
        find . -name tmp -type d | xargs rm -rf && cd / &&\
-      wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 &&\
-      tar -xjf phantomjs-1.9.7-linux-x86_64.tar.bz2 &&\
-      rm phantomjs-1.9.7-linux-x86_64.tar.bz2 &&\
-      cp phantomjs-1.9.7-linux-x86_64/bin/phantomjs /bin/phantomjs &&\
-      rm -fr phantomjs-1.9.7-linux-x86_64
+    # RigidJudge
+    useradd rigidjudge -s /bin/bash -m -U &&\
+    cd /var &&\
+     curl -s https://api.github.com/repos/DHUers/RigidJudge/releases/latest |\
+      grep browser_download_url | head -n 1 | cut -d '"' -f 4 |\
+      wget -i - -O RigidJudge.tar &&\
+     tar -xf RigidJudge.zip &&\
+     rm RigidJudge.zip &&\
+     chown -R rigidjudge:rigidjudge /var/RigidJudge &&\
+    cd /var/RigidJudge/bin/sandbox &&\
+     make clean && make all
