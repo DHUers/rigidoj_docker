@@ -41,10 +41,12 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     cd /src/ruby-build && ./install.sh &&\
     cd / && rm -rf /src/ruby-build &&\
     echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.2.discourse &&\
-    echo install_package "ruby-v_2_1_2_discourse" "https://github.com/SamSaffron/ruby/archive/v_2_1_2_discourse.tar.gz#98741e3cbfd00ae2931b2c0edb0f0698" ldflags_dirs standard verify_openssl >> /src/2.1.2.discourse &&\
+    # echo install_package "ruby-v_2_1_2_discourse" "https://github.com/SamSaffron/ruby/archive/v_2_1_2_discourse.tar.gz#98741e3cbfd00ae2931b2c0edb0f0698" ldflags_dirs standard verify_openssl >> /src/2.1.2.discourse &&\
+    echo install_package "ruby-v2_1_5" "https://github.com/ruby/ruby/archive/v2_1_5.tar.gz" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
     apt-get -y install ruby bison &&\
-    ruby-build /src/2.1.2.discourse /usr/local &&\
-    apt-get -y remove ruby1.8 &&\
+    # ruby-build /src/2.1.2.discourse /usr/local &&\
+    ruby-build /src/2.1.5 /usr/local &&\
+    apt-get -y remove ruby1.9.1 &&\
     gem update --system &&\
     gem install bundler &&\
     cd / && git clone https://github.com/SamSaffron/pups.git &&\
