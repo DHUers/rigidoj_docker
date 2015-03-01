@@ -17,13 +17,4 @@ RUN useradd rigidoj -s /bin/bash -m -U &&\
     cd /var/www/rigidoj/vendor/bundle &&\
        find . -name tmp -type d | xargs rm -rf && cd / &&\
     # RigidJudge
-    useradd rigidjudge -s /bin/bash -m -U &&\
-    cd /var &&\
-     curl -s https://api.github.com/repos/DHUers/RigidJudge/releases/latest |\
-      grep browser_download_url | head -n 1 | cut -d '"' -f 4 |\
-      wget -i - -O RigidJudge.tar &&\
-     tar -xf RigidJudge.tar &&\
-     rm RigidJudge.tar &&\
-     chown -R rigidjudge:rigidjudge /var/RigidJudge
-    # cd /var/RigidJudge/bin/sandbox && make
-    # cd /var/RigidJudge/bin && ./RigidJudge
+    useradd rigidjudge -s /bin/bash -m -U

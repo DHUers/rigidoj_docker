@@ -4,12 +4,12 @@ FROM ubuntu:14.04
 MAINTAINER DHUers "https://github.com/DHUers"
 
 RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
-    # apt-get -y install fping &&\
-    # sh -c "fping proxy && echo 'Acquire { Retries \"0\"; HTTP { Proxy \"http://proxy:3128\";}; };' > /etc/apt/apt.conf.d/40proxy || true" &&\
-    apt-get -y update &&\
+    echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main restricted universe" > /etc/apt/sources.list &&\
+    echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc)-updates main restricted universe" >> /etc/apt/sources.list &&\
+    echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc)-security main restricted universe" >> /etc/apt/sources.list &&\
+    apt-get update && apt-get -y install fping &&\
+    sh -c "fping proxy && echo 'Acquire { Retries \"0\"; HTTP { Proxy \"http://proxy:3128\";}; };' > /etc/apt/apt.conf.d/40proxy && apt-get update || true" &&\
     apt-get -y install software-properties-common &&\
-    # add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" &&\
-    # add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc)-updates main universe" &&\
     apt-get -y update &&\
     apt-mark hold initscripts &&\
     apt-get -y upgrade &&\
@@ -31,8 +31,10 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
                        pngcrush imagemagick gifsicle \
                        postgresql-9.4 postgresql-client-9.4 \
                        postgresql-contrib-9.4 libpq-dev libreadline-dev \
-                       nginx language-pack-en sudo cron \
+                       nginx language-pack-en sudo cron anacron \
                        psmisc rsyslog oracle-java7-installer rabbitmq-server clang &&\
+    sed -i -e 's/start -q anacron/anacron -s/' /etc/cron.d/anacron &&\
+    sed -i.bak 's/$ModLoad imklog/#$ModLoad imklog/' /etc/rsyslog.conf &&\
     dpkg-divert --local --rename --add /sbin/initctl &&\
     sh -c "test -f /sbin/initctl || ln -s /bin/true /sbin/initctl" &&\
     apt-get -y install redis-server haproxy openssh-server &&\
@@ -41,12 +43,9 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     cd /src/ruby-build && ./install.sh &&\
     cd / && rm -rf /src/ruby-build &&\
     echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.2.discourse &&\
-    # echo install_package "yaml-0.1.6" "http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz#5fe00cda18ca5daeb43762b80c38e06e" --if needs_yaml > /src/2.1.5 &&\
     echo install_package "ruby-v_2_1_2_discourse" "https://github.com/SamSaffron/ruby/archive/v_2_1_2_discourse.tar.gz#98741e3cbfd00ae2931b2c0edb0f0698" ldflags_dirs standard verify_openssl >> /src/2.1.2.discourse &&\
-    # echo install_package "ruby-2_1_5" "https://github.com/DHUers/ruby/releases/download/v2_1_5/ruby-2_1_5_rigidoj.tar.gz" ldflags_dirs standard verify_openssl >> /src/2.1.5 &&\
     apt-get -y install ruby bison &&\
     ruby-build /src/2.1.2.discourse /usr/local &&\
-    # ruby-build /src/2.1.5 /usr/local &&\
     apt-get -y remove ruby1.9.1 &&\
     gem update --system &&\
     gem install bundler &&\
@@ -71,16 +70,12 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
       cp pngout-20130221-linux/x86_64/pngout /bin/pngout &&\
       rm -rf pngout-20130221-linux
 
-# ADD runit-1 /etc/runit/1
-# ADD runit-1.d-cleanup-pids /etc/runit/1.d/cleanup-pids
-# ADD runit-2 /etc/runit/2
-
 # clean up for docker squash
 RUN rm -fr /usr/share/man && rm -fr /usr/share/doc && mkdir -p /etc/runit/3.d
 
 ADD runit-1 /etc/runit/1
 ADD runit-1.d-cleanup-pids /etc/runit/1.d/cleanup-pids
-# ADD runit-1.d-anacron /etc/runit/1.d/anacron
+ADD runit-1.d-anacron /etc/runit/1.d/anacron
 ADD runit-2 /etc/runit/2
 ADD runit-3 /etc/runit/3
 ADD boot /sbin/boot
