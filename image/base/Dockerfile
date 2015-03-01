@@ -71,6 +71,22 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
       cp pngout-20130221-linux/x86_64/pngout /bin/pngout &&\
       rm -rf pngout-20130221-linux
 
+# ADD runit-1 /etc/runit/1
+# ADD runit-1.d-cleanup-pids /etc/runit/1.d/cleanup-pids
+# ADD runit-2 /etc/runit/2
+
+# clean up for docker squash
+RUN rm -fr /usr/share/man && rm -fr /usr/share/doc && mkdir -p /etc/runit/3.d
+
 ADD runit-1 /etc/runit/1
 ADD runit-1.d-cleanup-pids /etc/runit/1.d/cleanup-pids
+# ADD runit-1.d-anacron /etc/runit/1.d/anacron
 ADD runit-2 /etc/runit/2
+ADD runit-3 /etc/runit/3
+ADD boot /sbin/boot
+
+ADD cron /etc/service/cron/run
+ADD rsyslog /etc/service/rsyslog/run
+
+# this is temporary, remove in 2015
+RUN cp /sbin/boot /sbin/runit
