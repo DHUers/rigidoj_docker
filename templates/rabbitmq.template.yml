@@ -1,16 +1,27 @@
-# we can not migrate without rabbitmq-server, launch it if needed
+run:
+  - file:
+     path: /etc/service/rabbitmq/run
+     chmod: "+x"
+     contents: |
+        #!/bin/sh
+        exec 2>&1
+        exec chpst -u rabbitmq -U rabbitmq /usr/sbin/rabbitmq-server
+
+  - file:
+     path: /etc/runit/3.d/20-rabbitmq
+     chmod: "+x"
+     contents: |
+       #!/bin/bash
+       sv stop rabbitmq
+
+  - exec:
+      cmd: echo rabbitmq installed
+      hook: rabbitmq
+
+# launch rabbitmq if needed
 hooks:
-  # before_code:
-  #   - exec:
-  #       background: true
-  #       cmd: exec chpst -u rabbitmq /usr/bin/rabbitmq-server
   after_code:
     - replace:
-       filename: /etc/service/unicorn/run
-       from: "# rabbitmq-server"
-       to: sv start rabbitmq-server || exit 1
-
-run:
-  - exec:
-      hook: rabbitmq
-      cmd: "echo rabbitmq-server installed!"
+       filename: /etc/service/rabbitmq/run
+       from: "# rabbitmq"
+       to: sv start rabbitmq || exit 1
