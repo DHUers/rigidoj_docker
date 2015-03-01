@@ -15,7 +15,7 @@ env:
 
 params:
   # SSH key is required for remote access into the container
-  version: tests-passed
+  version: master
 
   home: /var/www/rigidoj
   upload_size: 10m

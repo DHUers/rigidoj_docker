@@ -24,6 +24,6 @@ RUN useradd rigidoj -s /bin/bash -m -U &&\
       wget -i - -O RigidJudge.tar &&\
      tar -xf RigidJudge.tar &&\
      rm RigidJudge.tar &&\
-     chown -R rigidjudge:rigidjudge /var/RigidJudge &&\
-    cd /var/RigidJudge/bin/sandbox && make &&\
-    cd /var/RigidJudge/bin && ./RigidJudge
+     chown -R rigidjudge:rigidjudge /var/RigidJudge
+    # cd /var/RigidJudge/bin/sandbox && make
+    # cd /var/RigidJudge/bin && ./RigidJudge

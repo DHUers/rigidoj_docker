@@ -19,11 +19,12 @@ templates:
   - "templates/web.template.yml"
   - "templates/sshd.template.yml"
   - "templates/web.china.template.yml"
-  # - "templates/web.ratelimited.template.yml"
+  - "templates/web.ratelimited.template.yml"
+  - "templates/judger.template.yml"
 
 ## which TCP/IP ports should this container expose?
 expose:
-  - "8081:80" # fwd host port 8081 to container port 80 (http)
+  - "80:80" # fwd host port 8081 to container port 80 (http)
   - "2222:22" # fwd host port 2222 to container port 22 (ssh)
 
 params:
