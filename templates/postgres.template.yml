@@ -35,6 +35,13 @@ run:
        #!/bin/bash
        sv stop postgres
 
+  - exec:
+      cmd:
+        - chown -R root /var/lib/postgresql/9.4/main
+        - "[ ! -e /shared/postgres_data ] && install -d -m 0755 -o postgres -g postgres /shared/postgres_data && sudo -E -u postgres /usr/lib/postgresql/9.4/bin/initdb -D /shared/postgres_data || exit 0"
+        - chown -R postgres:postgres /shared/postgres_data
+        - chown -R postgres:postgres /var/run/postgresql
+
   - replace:
       filename: "/etc/postgresql/9.4/main/postgresql.conf"
       from: "data_directory = '/var/lib/postgresql/9.4/main'"
@@ -113,6 +120,7 @@ run:
   - exec: su postgres -c 'psql template1 -c "create extension if not exists pg_trgm;"'
   - exec: su postgres -c 'psql rigidoj -c "create extension if not exists hstore;"'
   - exec: su postgres -c 'psql rigidoj -c "create extension if not exists pg_trgm;"'
+  - exec: su postgres -c 'psql rigidoj -c "alter role rigidoj superuser;"'
 
   - file:
      path: /var/lib/postgresql/take-database-backup

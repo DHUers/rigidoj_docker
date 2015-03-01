@@ -13,7 +13,7 @@ config_file=containers/"$config".yml
 cidfile=cids/"$config".cid
 cidbootstrap=cids/"$config"_bootstrap.cid
 local_rigidoj=local_rigidoj
-image=dhuacm/rigidoj:latest
+image=dhuacm/rigidoj-docker:latest
 docker_path=`which docker.io || which docker`
 
 if [ "${SUPERVISED}" = "true" ]; then

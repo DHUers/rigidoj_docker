@@ -41,6 +41,7 @@ run:
         exec 2>&1
         # redis
         # postgres
+        # rabbitmq-server
         cd $home
         chown -R rigidoj:www-data /shared/log/rails
         LD_PRELOAD=/usr/lib/libjemalloc.so.1 HOME=/home/rigidoj USER=rigidoj exec chpst -u rigidoj:www-data -U rigidoj:www-data bundle exec config/unicorn_launcher -E production -c config/unicorn.conf.rb
