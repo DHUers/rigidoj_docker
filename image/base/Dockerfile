@@ -58,7 +58,7 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
     apt-get -y install runit monit socat &&\
     apt-get clean &&\
     rm -f /etc/apt/apt.conf.d/40proxy &&\
-    locale-gen en_US &&\
+    locale-gen en_US.UTF-8 &&\
     mkdir -p /etc/runit/1.d &&\
     wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 &&\
       tar -xjf phantomjs-1.9.7-linux-x86_64.tar.bz2 &&\
@@ -81,6 +81,10 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
        find . -name tmp -type d | xargs rm -rf && cd / &&\
     useradd rigidjudge -s /bin/bash -m -U &&\
     rm -fr /usr/share/man && rm -fr /usr/share/doc && mkdir -p /etc/runit/3.d # clean up for docker squash
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 ADD runit-1 /etc/runit/1
 ADD runit-1.d-cleanup-pids /etc/runit/1.d/cleanup-pids
