@@ -1,12 +1,10 @@
 templates:
-  - "templates/rabbitmq.template.yml"
   - "templates/sshd.template.yml"
   - "templates/judger.template.yml"
 
 ## which TCP/IP ports should this container expose?
 expose:
-  - "5672:5672"
-  - "2222:22" # fwd host port 2222 to container port 22 (ssh)
+  - "2223:22" # fwd host port 2222 to container port 22 (ssh)
 
 ## These containers are stateless, all data is stored in /shared
 volumes:

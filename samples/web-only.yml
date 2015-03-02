@@ -14,12 +14,9 @@
 # This is configurable by amending the params in this file
 
 templates:
-  - "templates/postgres.template.yml"
-  - "templates/redis.template.yml"
-  - "templates/rabbitmq.template.yml"
   - "templates/web.template.yml"
-  - "templates/sshd.template.yml"
   - "templates/web.ratelimited.template.yml"
+  - "templates/sshd.template.yml"
 
 ## which TCP/IP ports should this container expose?
 expose:
@@ -43,6 +40,16 @@ env:
   ## With 2GB we recommend 3-4 workers, with 1GB only 2
   #UNICORN_WORKERS: 3
 
+  ## TODO: How many concurrent web requests are supported?
+  ## With 2GB we recommend 3-4 workers, with 1GB only 2
+  #UNICORN_WORKERS: 3
+
+  ## TODO: configure connectivity to the databases
+  RIGIDOJ_DB_SOCKET: ''
+  #RIGIDOJ_DB_USER: discourse
+  RIGIDOJ_DB_PASSWORD: SOME_SECRET
+  RIGIDOJ_DB_HOST: DB_IP_ADDRESS
+  RIGIDOJ_REDIS_HOST: REDIS_IP_ADDRESS
   ## TODO: List of comma delimited emails that will be made admin and developer
   ## on initial signup example 'user1@example.com,user2@example.com'
   RIGIDOJ_DEVELOPER_EMAILS: 'me@example.com'
@@ -60,12 +67,13 @@ env:
   #RIGIDOJ_CDN_URL: //rigidoj-cdn.example.com
 
 ## These containers are stateless, all data is stored in /shared
+
 volumes:
   - volume:
-      host: /var/rigidoj/shared/standalone
+      host: /var/discourse/shared/web-only
       guest: /shared
   - volume:
-      host: /var/rigidoj/shared/standalone/log/var-log
+      host: /var/discourse/shared/web-only/log/var-log
       guest: /var/log
 
 # ## The docker manager plugin allows you to one-click upgrade RigidOJ
