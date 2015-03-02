@@ -1,5 +1,4 @@
 env:
-   #RABBITMQ_HOME: /var/lib/rabbitmq
    RABBITMQ_LOG_BASE: /var/log/rabbitmq
 
 run:
@@ -7,9 +6,14 @@ run:
       cmd:
         - mkdir -p $RABBITMQ_LOG_BASE
         - chown -R rabbitmq:rabbitmq $RABBITMQ_LOG_BASE
-        # - echo "dhakhjag" > /root/.erlang.cookie
-        # # - chown rabbitmq:rabbitmq /root/.erlang.cookie
-        # - chmod 777 -R /root
+        - rabbitmq-plugins enable rabbitmq_management
+
+  - exec:
+      hooks: rabbitmq
+      cmd:
+        - rabbitmqctl set_permissions judger ".*" ".*" ".*"
+        - rabbitmqctl set_permissions rigidoj ".*" ".*" ".*"
+        - rabbitmqctl set_user_tags rigidoj administrator
 
   - file:
      path: /etc/rabbitmq/rabbitmq.config
@@ -32,8 +36,7 @@ run:
 
         ulimit -n 102400
 
-        # exec chpst -u rabbitmq -U rabbitmq /usr/sbin/rabbitmq-server -detached
-        exec chpst -u root -U root /usr/sbin/rabbitmq-server -detached
+        exec chpst -u root -U root /usr/sbin/rabbitmq-server
 
   - file:
      path: /etc/runit/3.d/99-rabbitmq
