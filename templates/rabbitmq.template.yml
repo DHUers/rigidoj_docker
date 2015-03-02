@@ -1,4 +1,5 @@
 env:
+  HOME: /var/lib/rabbitmq
   RABBITMQ_NODE_IP_ADDRESS: 127.0.0.1
   RABBITMQ_NODE_PORT: 5672
   RABBITMQ_LOG_BASE: /var/log/rabbitmq
@@ -28,6 +29,9 @@ run:
      contents: |
         #!/bin/sh
         exec 2>&1
+
+        ulimit -n 102400
+
         exec chpst -u rabbitmq -U rabbitmq /usr/sbin/rabbitmq-server -detached
 
   - file:
