@@ -11,6 +11,7 @@ run:
   - exec:
       hooks: rabbitmq
       cmd:
+        - rabbitmqctl delete_user guest
         - rabbitmqctl set_permissions judger ".*" ".*" ".*"
         - rabbitmqctl set_permissions rigidoj ".*" ".*" ".*"
         - rabbitmqctl set_user_tags rigidoj administrator
