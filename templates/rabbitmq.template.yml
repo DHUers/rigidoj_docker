@@ -1,4 +1,27 @@
+env:
+  RABBITMQ_NODE_IP_ADDRESS: 127.0.0.1
+  RABBITMQ_NODE_PORT: 5672
+  RABBITMQ_LOG_BASE: /var/log/rabbitmq
+
 run:
+  - exec:
+      cmd:
+        - mkdir -p /var/log/rabbitmq
+        - chown -R rabbitmq /var/log/rabbitmq
+        - chgrp -R rabbitmq /var/log/rabbitmq
+
+  - file:
+     path: /etc/rabbitmq/rabbitmq.config
+     contents: |
+         %% -*- mode: erlang -*-
+         %% See http://www.rabbitmq.com/configure.html for details.
+         %% ----------------------------------------------------------------------------
+         [
+          {rabbit,
+           [{log_levels, [{connection, info}]}]
+          }
+         ]
+
   - file:
      path: /etc/service/rabbitmq/run
      chmod: "+x"
@@ -13,10 +36,6 @@ run:
      contents: |
        #!/bin/bash
        sv stop rabbitmq
-
-  - exec:
-      cmd: echo rabbitmq installed
-      hook: rabbitmq
 
 # launch rabbitmq if needed
 hooks:
