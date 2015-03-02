@@ -16,6 +16,7 @@
 templates:
   - "templates/web.template.yml"
   - "templates/web.ratelimited.template.yml"
+  - "templates/web.china.template.yml"
   - "templates/sshd.template.yml"
 
 ## which TCP/IP ports should this container expose?
@@ -40,13 +41,9 @@ env:
   ## With 2GB we recommend 3-4 workers, with 1GB only 2
   #UNICORN_WORKERS: 3
 
-  ## TODO: How many concurrent web requests are supported?
-  ## With 2GB we recommend 3-4 workers, with 1GB only 2
-  #UNICORN_WORKERS: 3
-
   ## TODO: configure connectivity to the databases
   RIGIDOJ_DB_SOCKET: ''
-  #RIGIDOJ_DB_USER: discourse
+  #RIGIDOJ_DB_USER: rigidoj
   RIGIDOJ_DB_PASSWORD: SOME_SECRET
   RIGIDOJ_DB_HOST: DB_IP_ADDRESS
   RIGIDOJ_REDIS_HOST: REDIS_IP_ADDRESS
@@ -70,10 +67,10 @@ env:
 
 volumes:
   - volume:
-      host: /var/discourse/shared/web-only
+      host: /var/rigidoj/shared/web-only
       guest: /shared
   - volume:
-      host: /var/discourse/shared/web-only/log/var-log
+      host: /var/rigidoj/shared/web-only/log/var-log
       guest: /var/log
 
 # ## The docker manager plugin allows you to one-click upgrade RigidOJ
