@@ -1,8 +1,15 @@
+env:
+   #RABBITMQ_HOME: /var/lib/rabbitmq
+   RABBITMQ_LOG_BASE: /var/log/rabbitmq
+
 run:
   - exec:
       cmd:
-        - mkdir -p /var/log/rabbitmq
-        - chown -R rabbitmq:rabbitmq /var/log/rabbitmq
+        - mkdir -p $RABBITMQ_LOG_BASE
+        - chown -R rabbitmq:rabbitmq $RABBITMQ_LOG_BASE
+        # - echo "dhakhjag" > /root/.erlang.cookie
+        # # - chown rabbitmq:rabbitmq /root/.erlang.cookie
+        # - chmod 777 -R /root
 
   - file:
      path: /etc/rabbitmq/rabbitmq.config
@@ -25,7 +32,8 @@ run:
 
         ulimit -n 102400
 
-        RABBITMQ_HOME=/var/lib/rabbitmq RABBITMQ_NODE_IP_ADDRESS=127.0.0.1 RABBITMQ_NODE_PORT=5672 RABBITMQ_LOG_BASE=/var/log/rabbitmq exec chpst -u rabbitmq -U rabbitmq /usr/sbin/rabbitmq-server
+        # exec chpst -u rabbitmq -U rabbitmq /usr/sbin/rabbitmq-server -detached
+        exec chpst -u root -U root /usr/sbin/rabbitmq-server -detached
 
   - file:
      path: /etc/runit/3.d/99-rabbitmq
