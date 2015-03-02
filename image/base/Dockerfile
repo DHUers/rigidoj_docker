@@ -1,4 +1,5 @@
-# VERSION 0.0.1
+# VERSION 0.1.0
+
 FROM ubuntu:14.04
 
 MAINTAINER DHUers "https://github.com/DHUers"
@@ -68,10 +69,18 @@ RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections &&\
       tar -xf pngout-20130221-linux.tar.gz &&\
       rm pngout-20130221-linux.tar.gz &&\
       cp pngout-20130221-linux/x86_64/pngout /bin/pngout &&\
-      rm -rf pngout-20130221-linux
-
-# clean up for docker squash
-RUN rm -fr /usr/share/man && rm -fr /usr/share/doc && mkdir -p /etc/runit/3.d
+      rm -rf pngout-20130221-linux &&\
+    useradd rigidoj -s /bin/bash -m -U &&\
+    cd /var/www &&\
+      git clone https://github.com/DHUers/rigidoj.git &&\
+      chown -R rigidoj:rigidoj /var/www/rigidoj &&\
+    cd /var/www/rigidoj &&\
+      sudo -u rigidoj RAILS4=1 bundle install --deployment \
+         --without test --without development &&\
+    cd /var/www/rigidoj/vendor/bundle &&\
+       find . -name tmp -type d | xargs rm -rf && cd / &&\
+    useradd rigidjudge -s /bin/bash -m -U &&\
+    rm -fr /usr/share/man && rm -fr /usr/share/doc && mkdir -p /etc/runit/3.d # clean up for docker squash
 
 ADD runit-1 /etc/runit/1
 ADD runit-1.d-cleanup-pids /etc/runit/1.d/cleanup-pids

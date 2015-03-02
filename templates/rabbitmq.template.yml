@@ -20,7 +20,7 @@ run:
           {rabbit,
            [{log_levels, [{connection, info}]}]
           }
-         ]
+         ].
 
   - file:
      path: /etc/service/rabbitmq/run
