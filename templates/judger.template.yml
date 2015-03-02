@@ -5,10 +5,15 @@ params:
 
 run:
   - exec:
-      cd: $home
       hook: code
       cmd:
         - /usr/bin/curl -s https://api.github.com/repos/DHUers/RigidJudge/releases/$version | /bin/grep browser_download_url | /usr/bin/head -n 1 | /usr/bin/cut -d '"' -f 4 | /usr/bin/wget -i - -O RigidJudge.tar
-        - /bin/tar -xf RigidJudge.tar
-        - rm -f /var/RidigJudge.tar
+        - /bin/tar -xf RigidJudge.tar /tmp
+        - mv /tmp/RigidJudge $home
+        - chown -R rigidjudge /var/judger
+        - chgrp -R rigidjudge /var/judger
         # - make -C /var/RigidJudge/bin/sandbox/ all
+  - exec:
+      hook: build
+      cmd:
+        - echo 'build'
