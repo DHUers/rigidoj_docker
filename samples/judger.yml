@@ -1,6 +1,7 @@
 templates:
   - "templates/rabbitmq.template.yml"
   - "templates/judger.template.yml"
+  - "templates/sshd.template.yml"
 
 ## which TCP/IP ports should this container expose?
 expose:
