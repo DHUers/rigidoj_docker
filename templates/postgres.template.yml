@@ -17,6 +17,10 @@ run:
   - exec: chmod 775 /shared/postgres_run
   - exec: rm -fr /var/run/postgresql
   - exec: ln -s /shared/postgres_run /var/run/postgresql
+  - exec: mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
+  - exec: touch /var/run/postgresql/9.4-main.pg_stat_tmp/global.tmp
+  - exec: chown -R postgres:postgres /var/run/postgresql/9.4-main.pg_stat_tmp
+  - exec: chmod -R 775 /var/run/postgresql/9.4-main.pg_stat_tmp
   - exec: socat /dev/null UNIX-CONNECT:/shared/postgres_run/.s.PGSQL.5432 || exit 0 && echo postgres already running stop container ; exit 1
   - exec: rm -fr /shared/postgres_run/.s*
   - exec: rm -fr /shared/postgres_run/*.pid
