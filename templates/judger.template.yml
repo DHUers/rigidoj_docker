@@ -4,6 +4,15 @@ params:
   home: /var/judger
 
 run:
+  - file:
+     path: /etc/runit/1.d/copy-env
+     chmod: "+x"
+     contents: |
+        #!/bin/bash
+        conf=/etc/bash.bashrc
+        # find RIGIDOJ_ env vars
+        /usr/local/bin/ruby -e 'ENV.each{|k,v| puts "export #{k}=#{v}" if k =~ /^RIGIDOJ_.*/}' >> $conf
+
   - exec:
       hook: code
       cmd:
@@ -14,12 +23,14 @@ run:
         - chgrp -R rigidjudge /var/judger
         # - make -C /var/RigidJudge/bin/sandbox/ all
   - file:
-     path: /etc/runit/3.d/10-judger
+     path: /etc/service/judger/run
      chmod: "+x"
      contents: |
        #!/bin/bash
-       cd /var/judger/bin
-       ./RigidJudge
+       # exec 2>&1
+       # source /root/boot_env
+       echo $RIGIDOJ_RABBITMQ_HOST >> /root/temp
+       (cd /var/judger/bin;chpst -u rigidjudge -U rigidjudge ./RigidJudge)
 
   - exec:
       hook: build
