@@ -11,6 +11,7 @@ env:
   RIGIDOJ_RABBITMQ_HOST: RIGIDOJ_RABBITMQ_HOST
   RIGIDOJ_RABBITMQ_PORT: RIGIDOJ_RABBITMQ_PORT
   RIGIDOJ_RABBITMQ_PASSWORD: JUDGER_PASSWORD
+  ## TODO: configure connectivity to the data server
   RIGIDOJ_LOCAL_DATA_SERVER_HOST: RIGIDOJ_LOCAL_DATA_SERVER_HOST
   RIGIDOJ_LOCAL_DATA_SERVER_USERNAME: RIGIDOJ_LOCAL_DATA_SERVER_USERNAME
   RIGIDOJ_LOCAL_DATA_SERVER_PASSWORD: RIGIDOJ_LOCAL_DATA_SERVER_PASSWORD
@@ -18,11 +19,11 @@ env:
 ## These containers are stateless, all data is stored in /shared
 volumes:
   - volume:
-      host: /var/rigidoj/shared/judger
-      guest: /shared
+      host: /var/rigidoj/shared/judger/data
+      guest: /var/judger/bin/data
   - volume:
-      host: /var/rigidoj/shared/judger/log/var-log
-      guest: /var/log
+      host: /var/rigidoj/shared/judger/log
+      guest: /var/judger/bin/log
 
 ## Remember, this is YAML syntax - you can only have one block with a name
 run:
