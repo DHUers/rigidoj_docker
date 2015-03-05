@@ -43,7 +43,8 @@ env:
 
   ## TODO: configure connectivity to the databases
   RIGIDOJ_DB_SOCKET: ''
-  #RIGIDOJ_DB_USER: rigidoj
+  RIGIDOJ_DB_NAME: rigidoj
+  RIGIDOJ_DB_USERNAME: rigidoj
   RIGIDOJ_DB_PASSWORD: SOME_SECRET
   RIGIDOJ_DB_HOST: DB_IP_ADDRESS
   RIGIDOJ_REDIS_HOST: REDIS_IP_ADDRESS
