@@ -47,7 +47,16 @@ env:
   RIGIDOJ_DB_USERNAME: rigidoj
   RIGIDOJ_DB_PASSWORD: SOME_SECRET
   RIGIDOJ_DB_HOST: DB_IP_ADDRESS
+  RIGIDOJ_DB_PORT: 5432
+  ## TODO: configure connectivity to the redis
   RIGIDOJ_REDIS_HOST: REDIS_IP_ADDRESS
+  RIGIDOJ_REDIS_PORT: 6379
+  ## TODO: configure connectivity to the rabbitmq-server
+  RIGIDOJ_RABBITMQ_HOST: RIGIDOJ_RABBITMQ_HOST
+  RIGIDOJ_RABBITMQ_PORT: 5672
+  RIGIDOJ_RABBITMQ_USERNAME: rigidoj
+  RIGIDOJ_RABBITMQ_PASSWORD: ADMIN_PASSWORD
+
   ## TODO: List of comma delimited emails that will be made admin and developer
   ## on initial signup example 'user1@example.com,user2@example.com'
   RIGIDOJ_DEVELOPER_EMAILS: 'me@example.com'
