@@ -44,7 +44,7 @@ run:
         # rabbitmq-server
         cd $home
         chown -R rigidoj:www-data /shared/log/rails
-        LD_PRELOAD=/usr/lib/libjemalloc.so.1 HOME=/home/rigidoj USER=rigidoj exec chpst -u rigidoj:www-data -U rigidoj:www-data bundle exec config/unicorn_launcher -E production -c config/unicorn.conf.rb
+        LD_PRELOAD=/usr/lib/libjemalloc.so.1 HOME=/home/rigidoj USER=rigidoj exec chpst -u rigidoj:www-data -U rigidoj:www-data bundle exec config/unicorn_launcher -E production -c config/unicorn.rb
 
   - file:
      path: /etc/service/nginx/run
@@ -136,13 +136,6 @@ run:
         - su rigidoj -c 'bundle install --deployment --verbose --without test --without development'
         - su rigidoj -c 'bundle exec rake db:migrate'
         - su rigidoj -c 'bundle exec rake assets:precompile'
-
-  - file:
-     path: /usr/local/bin/rigidoj
-     chmod: +x
-     contents: |
-       #!/bin/bash
-       (cd /var/www/rigidoj && RAILS_ENV=production sudo -H -E -u rigidoj bundle exec script/rigidoj "$@")
 
   - file:
      path: /usr/local/bin/rails
