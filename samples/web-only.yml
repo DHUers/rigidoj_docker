@@ -86,6 +86,13 @@ volumes:
 
 ## Remember, this is YAML syntax - you can only have one block with a name
 run:
+  - file:
+     path: /etc/nginx/.htpasswd
+     contents: |
+       # https://www.digitalocean.com/community/tutorials/how-to-set-up-http-authentication-with-nginx-on-ubuntu-12-10
+       # Use `sudo htpasswd -c /etc/nginx/.htpasswd exampleuser` to create
+       # some users for `secure_uploads` http basic auth
+
   - exec: echo "Beginning of custom commands"
 
   ## If you want to configure password login for root, uncomment and change:
