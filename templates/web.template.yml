@@ -102,13 +102,6 @@ run:
 
   - replace:
       filename: "/etc/nginx/conf.d/rigidoj.conf"
-      from: /upstream[^\}]+\}/m
-      to: "upstream rigidoj {
-        server 127.0.0.1:3000;
-      }"
-
-  - replace:
-      filename: "/etc/nginx/conf.d/rigidoj.conf"
       from: /server_name.+$/
       to: server_name _ ;
 
