@@ -13,7 +13,7 @@ config_file=containers/"$config".yml
 cidfile=cids/"$config".cid
 cidbootstrap=cids/"$config"_bootstrap.cid
 local_rigidoj=local_rigidoj
-image=dhuers/rigidoj-docker:0.1.0
+image=dhuers/rigidoj-docker:0.1.1
 docker_path=`which docker.io || which docker`
 host_name=`hostname`-$config
 
