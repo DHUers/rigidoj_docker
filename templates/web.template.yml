@@ -130,6 +130,12 @@ run:
         - su rigidoj -c 'bundle exec rake db:migrate'
         - su rigidoj -c 'bundle exec rake assets:precompile'
 
+  - exec:
+      cd: $home
+      cmd:
+        - su rigidoj -c 'whenever -c'
+        - su rigidoj -c 'whenever -w'
+
   - file:
      path: /usr/local/bin/rails
      chmod: +x
