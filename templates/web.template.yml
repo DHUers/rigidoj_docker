@@ -133,9 +133,8 @@ run:
   - exec:
       cd: $home
       cmd:
-        - su rigidoj -c 'gem install whenever'
-        - su rigidoj -c 'whenever -c'
-        - su rigidoj -c 'whenever -w'
+        - su rigidoj -c 'bundle exec whenever -c'
+        - su rigidoj -c 'bundle exec whenever -w'
 
   - file:
      path: /usr/local/bin/rails
