@@ -133,6 +133,7 @@ run:
   - exec:
       cd: $home
       cmd:
+        - su rigidoj -c 'gem install whenever'
         - su rigidoj -c 'whenever -c'
         - su rigidoj -c 'whenever -w'
 
