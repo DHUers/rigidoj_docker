@@ -364,7 +364,7 @@ run_start(){
          exit 1
        fi
 
-       $docker_path run $user_args $links $attach_on_run $restart_policy "${env[@]}" -h "$host_name" -e DOCKER_HOST_IP=$docker_ip --name $config -t --cidfile $cidfile $ports \
+       $docker_path run --cap-add=SYS_PTRACE $user_args $links $attach_on_run $restart_policy "${env[@]}" -h "$host_name" -e DOCKER_HOST_IP=$docker_ip --name $config -t --cidfile $cidfile $ports \
                   $volumes $local_rigidoj/$config /sbin/boot
 
        exit 0
